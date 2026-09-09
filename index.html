@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Unit Converter</title>
+  <title>Engineering Unit Converter</title>
 
   <style>
     * {
@@ -17,6 +17,7 @@
       min-height: 100vh;
       background: #ffffff;
       color: #111111;
+
       font-family:
         Inter,
         -apple-system,
@@ -27,22 +28,22 @@
         Arial,
         sans-serif;
 
-      padding: 60px 20px;
+      padding: 55px 20px;
     }
 
     .container {
       width: 100%;
-      max-width: 1050px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    /* =========================
-       Header
-       ========================= */
+    /* =========================================
+       HEADER
+       ========================================= */
 
     .header {
       text-align: center;
-      margin-bottom: 42px;
+      margin-bottom: 40px;
     }
 
     .header h1 {
@@ -53,19 +54,18 @@
     }
 
     .header p {
-      margin-top: 16px;
-      color: #777777;
-      font-size: 0.95rem;
+      margin-top: 15px;
+      color: #888888;
+      font-size: 0.9rem;
     }
 
-    /* =========================
-       Category tabs
-       ========================= */
+    /* =========================================
+       CATEGORY
+       ========================================= */
 
     .category-wrapper {
       overflow-x: auto;
-      margin-bottom: 30px;
-
+      margin-bottom: 28px;
       scrollbar-width: none;
     }
 
@@ -76,7 +76,7 @@
     .categories {
       display: flex;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
       min-width: max-content;
     }
 
@@ -84,22 +84,22 @@
       border: none;
       background: transparent;
 
-      padding: 10px 15px;
+      padding: 11px 18px;
 
-      border-radius: 10px;
+      border-radius: 11px;
 
-      font-size: 0.88rem;
       color: #777777;
+
+      font-size: 0.9rem;
+      font-weight: 500;
 
       cursor: pointer;
 
-      transition:
-        background 0.2s ease,
-        color 0.2s ease;
+      transition: 0.2s ease;
     }
 
     .category-btn:hover {
-      background: #f4f4f4;
+      background: #f5f5f5;
       color: #111111;
     }
 
@@ -108,11 +108,11 @@
       color: #ffffff;
     }
 
-    /* =========================
-       Main card
-       ========================= */
+    /* =========================================
+       CARD
+       ========================================= */
 
-    .converter-card {
+    .card {
       border: 1px solid #e5e5e5;
       border-radius: 26px;
 
@@ -124,61 +124,62 @@
         0 12px 40px rgba(0, 0, 0, 0.045);
     }
 
-    .converter-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-
-      margin-bottom: 30px;
+    .panel {
+      display: none;
     }
 
-    .converter-title {
+    .panel.active {
+      display: block;
+    }
+
+    .panel-title {
       font-size: 1.3rem;
       font-weight: 700;
+      margin-bottom: 6px;
     }
 
-    .converter-description {
-      margin-top: 6px;
+    .panel-description {
       color: #888888;
       font-size: 0.83rem;
+      margin-bottom: 28px;
     }
 
-    /* =========================
-       Flow mode
-       ========================= */
+    /* =========================================
+       SUB TABS
+       ========================================= */
 
-    .flow-modes {
-      display: none;
-
+    .sub-tabs {
+      display: flex;
       gap: 6px;
 
       padding: 5px;
 
       background: #f5f5f5;
+
       border-radius: 12px;
 
       margin-bottom: 28px;
     }
 
-    .flow-mode-btn {
+    .sub-tab {
       flex: 1;
 
       border: none;
       background: transparent;
 
-      padding: 10px;
-
       border-radius: 9px;
 
+      padding: 10px;
+
       color: #777777;
+
       font-size: 0.84rem;
+      font-weight: 500;
 
       cursor: pointer;
-
-      transition: all 0.2s ease;
     }
 
-    .flow-mode-btn.active {
+    .sub-tab.active {
       background: #ffffff;
       color: #111111;
 
@@ -186,42 +187,39 @@
         0 2px 8px rgba(0, 0, 0, 0.07);
     }
 
-    /* =========================
-       Converter
-       ========================= */
+    /* =========================================
+       NORMAL CONVERTER
+       ========================================= */
 
-    .converter-main {
+    .converter-row {
       display: grid;
 
       grid-template-columns:
         minmax(0, 1fr)
-        58px
+        60px
         minmax(0, 1fr);
 
-      align-items: center;
-
       gap: 14px;
+      align-items: center;
     }
 
     .unit-box {
+      padding: 22px;
+
       border: 1px solid #dedede;
       border-radius: 18px;
 
-      padding: 22px;
-
       background: #fafafa;
 
-      transition:
-        border-color 0.2s ease,
-        background 0.2s ease;
+      transition: 0.2s ease;
     }
 
     .unit-box:focus-within {
-      background: #ffffff;
       border-color: #999999;
+      background: #ffffff;
     }
 
-    .unit-input {
+    .large-input {
       width: 100%;
 
       border: none;
@@ -233,12 +231,13 @@
 
       font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 350;
+
       letter-spacing: -2px;
 
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
-    .unit-input::placeholder {
+    .large-input::placeholder {
       color: #cccccc;
     }
 
@@ -262,21 +261,18 @@
       width: 48px;
       height: 48px;
 
-      margin: 0 auto;
+      margin: auto;
 
-      border: 1px solid #dedede;
+      border: 1px solid #dddddd;
       border-radius: 50%;
 
       background: #ffffff;
-      color: #222222;
 
-      font-size: 1.4rem;
+      font-size: 1.3rem;
 
       cursor: pointer;
 
-      transition:
-        transform 0.25s ease,
-        background 0.2s ease;
+      transition: 0.25s ease;
     }
 
     .swap-btn:hover {
@@ -284,49 +280,35 @@
       transform: rotate(180deg);
     }
 
-    /* =========================
-       Density
-       ========================= */
+    /* =========================================
+       COMMON INPUT
+       ========================================= */
 
-    .density-panel {
-      display: none;
+    .label {
+      display: block;
 
-      margin-top: 28px;
-      padding-top: 26px;
+      margin-bottom: 8px;
 
-      border-top: 1px solid #ededed;
-    }
+      color: #555555;
 
-    .density-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 14px;
-    }
-
-    .density-title {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 650;
     }
 
-    .density-equation {
-      font-size: 0.84rem;
-      color: #999999;
-    }
-
-    .density-control {
+    .input-with-unit {
       display: grid;
-      grid-template-columns: 1fr 160px;
+      grid-template-columns: 1fr 150px;
       gap: 10px;
     }
 
-    .density-input,
-    .density-select {
-      border: 1px solid #dedede;
-      border-radius: 12px;
+    .standard-input,
+    .standard-select {
+      width: 100%;
 
       padding: 13px 14px;
+
+      border: 1px solid #dddddd;
+      border-radius: 12px;
 
       background: #fafafa;
 
@@ -335,43 +317,238 @@
       font-size: 0.9rem;
     }
 
-    .density-input:focus,
-    .density-select:focus {
+    .standard-input:focus,
+    .standard-select:focus {
       border-color: #999999;
       background: #ffffff;
     }
 
+    /* =========================================
+       DENSITY
+       ========================================= */
+
+    .density-panel {
+      display: none;
+
+      border-top: 1px solid #eeeeee;
+
+      margin-top: 28px;
+      padding-top: 25px;
+    }
+
+    .density-panel.active {
+      display: block;
+    }
+
+    .density-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 14px;
+    }
+
+    .density-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .equation {
+      color: #999999;
+      font-size: 0.84rem;
+    }
+
     .density-note {
-      margin-top: 11px;
+      margin-top: 10px;
 
       color: #999999;
       font-size: 0.76rem;
       line-height: 1.5;
     }
 
-    /* =========================
-       Bottom info
-       ========================= */
+    /* =========================================
+       HEAT FLUX
+       ========================================= */
 
-    .conversion-info {
-      margin-top: 22px;
-      padding-top: 20px;
-
-      border-top: 1px solid #eeeeee;
-
-      color: #888888;
-      font-size: 0.8rem;
-      line-height: 1.6;
+    .heat-rate-section {
+      margin-bottom: 28px;
     }
 
-    /* =========================
-       Responsive
-       ========================= */
+    .geometry-section {
+      border-top: 1px solid #eeeeee;
+      border-bottom: 1px solid #eeeeee;
+
+      padding: 26px 0;
+      margin-bottom: 26px;
+    }
+
+    .geometry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 15px;
+    }
+
+    .geometry-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .geometry-tabs {
+      display: flex;
+      gap: 6px;
+
+      padding: 5px;
+
+      background: #f5f5f5;
+
+      border-radius: 11px;
+
+      margin-bottom: 20px;
+    }
+
+    .geometry-tab {
+      flex: 1;
+
+      border: none;
+      background: transparent;
+
+      padding: 9px;
+
+      border-radius: 8px;
+
+      color: #777777;
+
+      font-size: 0.82rem;
+
+      cursor: pointer;
+    }
+
+    .geometry-tab.active {
+      background: #ffffff;
+      color: #111111;
+
+      box-shadow:
+        0 2px 7px rgba(0, 0, 0, 0.06);
+    }
+
+    .geometry-content {
+      display: none;
+    }
+
+    .geometry-content.active {
+      display: block;
+    }
+
+    .geometry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .geometry-field {
+      display: grid;
+      grid-template-columns: 1fr 90px;
+      gap: 8px;
+    }
+
+    .area-result {
+      margin-top: 20px;
+
+      padding: 16px 18px;
+
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+
+      background: #fafafa;
+    }
+
+    .area-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .area-label {
+      color: #777777;
+      font-size: 0.8rem;
+    }
+
+    .area-value {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .area-secondary {
+      margin-top: 7px;
+
+      text-align: right;
+
+      color: #999999;
+      font-size: 0.78rem;
+
+      min-height: 1em;
+    }
+
+    .heat-result {
+      padding: 23px;
+
+      background: #111111;
+      color: #ffffff;
+
+      border-radius: 18px;
+    }
+
+    .heat-result-label {
+      color: #aaaaaa;
+      font-size: 0.8rem;
+
+      margin-bottom: 9px;
+    }
+
+    .heat-result-row {
+      display: grid;
+      grid-template-columns: 1fr 170px;
+      gap: 10px;
+
+      align-items: center;
+    }
+
+    .heat-result-input {
+      width: 100%;
+
+      border: none;
+      outline: none;
+
+      background: transparent;
+      color: #ffffff;
+
+      font-size: clamp(2rem, 5vw, 3rem);
+
+      letter-spacing: -2px;
+    }
+
+    .heat-result-select {
+      padding: 11px;
+
+      border: 1px solid #333333;
+      border-radius: 10px;
+
+      background: #1c1c1c;
+      color: #ffffff;
+
+      outline: none;
+    }
+
+    /* =========================================
+       MOBILE
+       ========================================= */
 
     @media (max-width: 700px) {
 
       body {
-        padding: 35px 15px;
+        padding: 35px 14px;
       }
 
       .header h1 {
@@ -382,11 +559,11 @@
         justify-content: flex-start;
       }
 
-      .converter-card {
+      .card {
         padding: 22px;
       }
 
-      .converter-main {
+      .converter-row {
         grid-template-columns: 1fr;
       }
 
@@ -398,116 +575,134 @@
         transform: rotate(270deg);
       }
 
-      .density-control {
+      .sub-tabs,
+      .geometry-tabs {
+        flex-direction: column;
+      }
+
+      .input-with-unit,
+      .geometry-grid,
+      .heat-result-row {
         grid-template-columns: 1fr;
       }
 
-      .flow-modes {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
 
-
 <body>
 
-  <main class="container">
+<main class="container">
 
-    <header class="header">
-      <h1>UNIT CONVERTER</h1>
-      <p>Simple conversion for everyday and engineering units</p>
-    </header>
-
-
-    <div class="category-wrapper">
-      <nav class="categories" id="categories"></nav>
-    </div>
+  <header class="header">
+    <h1>UNIT CONVERTER</h1>
+    <p>Thermal & Fluid Engineering</p>
+  </header>
 
 
-    <section class="converter-card">
+  <div class="category-wrapper">
 
-      <div class="converter-header">
+    <nav class="categories">
 
-        <div>
-          <div
-            class="converter-title"
-            id="converterTitle">
-            Length
-          </div>
+      <button
+        class="category-btn active"
+        data-panel="flowPanel">
+        Flow Rate
+      </button>
 
-          <div
-            class="converter-description"
-            id="converterDescription">
-          </div>
-        </div>
+      <button
+        class="category-btn"
+        data-panel="heatPanel">
+        Heat Flux
+      </button>
 
+      <button
+        class="category-btn"
+        data-panel="pressurePanel">
+        Pressure
+      </button>
+
+      <button
+        class="category-btn"
+        data-panel="volumePanel">
+        Volume
+      </button>
+
+      <button
+        class="category-btn"
+        data-panel="timePanel">
+        Time
+      </button>
+
+    </nav>
+
+  </div>
+
+
+  <section class="card">
+
+    <!-- =====================================
+         FLOW RATE
+         ===================================== -->
+
+    <div
+      class="panel active"
+      id="flowPanel">
+
+      <div class="panel-title">
+        Flow Rate
+      </div>
+
+      <div class="panel-description">
+        Volumetric and mass flow rate conversion
       </div>
 
 
-      <!-- Flow Mode -->
-
-      <div
-        class="flow-modes"
-        id="flowModes">
+      <div class="sub-tabs">
 
         <button
-          class="flow-mode-btn active"
-          data-flow-mode="volumetric">
-
+          class="sub-tab active"
+          data-flow="volumetric">
           Volumetric
-
         </button>
 
-
         <button
-          class="flow-mode-btn"
-          data-flow-mode="mass">
-
+          class="sub-tab"
+          data-flow="mass">
           Mass
-
         </button>
 
-
         <button
-          class="flow-mode-btn"
-          data-flow-mode="bridge">
-
+          class="sub-tab"
+          data-flow="bridge">
           Volume ↔ Mass
-
         </button>
 
       </div>
 
 
-      <!-- Main Converter -->
-
-      <div class="converter-main">
+      <div class="converter-row">
 
         <div class="unit-box">
 
           <input
             type="number"
-            class="unit-input"
-            id="leftInput"
-            value="1"
+            id="flowLeftInput"
+            class="large-input"
             step="any">
 
           <select
-            class="unit-select"
-            id="leftUnit">
+            id="flowLeftUnit"
+            class="unit-select">
           </select>
 
         </div>
 
 
         <button
-          class="swap-btn"
-          id="swapBtn"
-          aria-label="Swap units">
-
+          id="flowSwap"
+          class="swap-btn">
           ⇄
-
         </button>
 
 
@@ -515,52 +710,48 @@
 
           <input
             type="number"
-            class="unit-input"
-            id="rightInput"
+            id="flowRightInput"
+            class="large-input"
             step="any">
 
           <select
-            class="unit-select"
-            id="rightUnit">
+            id="flowRightUnit"
+            class="unit-select">
           </select>
 
         </div>
 
       </div>
 
-
-      <!-- Density -->
 
       <div
         class="density-panel"
         id="densityPanel">
 
-        <div class="density-header">
+        <div class="density-heading">
 
           <div class="density-title">
             Fluid Density
           </div>
 
-          <div class="density-equation">
+          <div class="equation">
             ṁ = ρQ
           </div>
 
         </div>
 
 
-        <div class="density-control">
+        <div class="input-with-unit">
 
           <input
             type="number"
             id="densityInput"
-            class="density-input"
-            value="1000"
+            class="standard-input"
             step="any">
-
 
           <select
             id="densityUnit"
-            class="density-select">
+            class="standard-select">
 
             <option value="kgm3">
               kg/m³
@@ -586,775 +777,516 @@
 
         </div>
 
-
         <div class="density-note">
+          Density is required for conversion between volumetric and mass flow rates.
+        </div>
 
-          Density is required to convert between
-          volumetric flow rate and mass flow rate.
-          1000 kg/m³ is shown only as the initial value.
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         HEAT FLUX
+         ===================================== -->
+
+    <div
+      class="panel"
+      id="heatPanel">
+
+      <div class="panel-title">
+        Heat Flux
+      </div>
+
+      <div class="panel-description">
+        q'' = Q̇ / A
+      </div>
+
+
+      <div class="heat-rate-section">
+
+        <label class="label">
+          Heat Transfer Rate (Q̇)
+        </label>
+
+        <div class="input-with-unit">
+
+          <input
+            type="number"
+            id="heatRateInput"
+            class="standard-input"
+            step="any">
+
+          <select
+            id="heatRateUnit"
+            class="standard-select">
+          </select>
 
         </div>
 
       </div>
 
 
-      <div
-        class="conversion-info"
-        id="conversionInfo">
+      <div class="geometry-section">
+
+        <div class="geometry-header">
+
+          <div class="geometry-title">
+            Heat Transfer Area
+          </div>
+
+          <div
+            class="equation"
+            id="geometryFormula">
+            A = L × W
+          </div>
+
+        </div>
+
+
+        <div class="geometry-tabs">
+
+          <button
+            class="geometry-tab active"
+            data-geometry="rectangle">
+            Rectangle
+          </button>
+
+          <button
+            class="geometry-tab"
+            data-geometry="circle">
+            Circle
+          </button>
+
+          <button
+            class="geometry-tab"
+            data-geometry="manual">
+            Manual Area
+          </button>
+
+        </div>
+
+
+        <!-- Rectangle -->
+
+        <div
+          class="geometry-content active"
+          id="rectangleGeometry">
+
+          <div class="geometry-grid">
+
+            <div>
+
+              <label class="label">
+                Length (L)
+              </label>
+
+              <div class="geometry-field">
+
+                <input
+                  type="number"
+                  id="lengthInput"
+                  class="standard-input"
+                  step="any">
+
+                <select
+                  id="lengthUnit"
+                  class="standard-select">
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <label class="label">
+                Width (W)
+              </label>
+
+              <div class="geometry-field">
+
+                <input
+                  type="number"
+                  id="widthInput"
+                  class="standard-input"
+                  step="any">
+
+                <select
+                  id="widthUnit"
+                  class="standard-select">
+                </select>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Circle -->
+
+        <div
+          class="geometry-content"
+          id="circleGeometry">
+
+          <label class="label">
+            Diameter (D)
+          </label>
+
+          <div
+            class="geometry-field"
+            style="max-width: 420px;">
+
+            <input
+              type="number"
+              id="diameterInput"
+              class="standard-input"
+              step="any">
+
+            <select
+              id="diameterUnit"
+              class="standard-select">
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <!-- Manual Area -->
+
+        <div
+          class="geometry-content"
+          id="manualGeometry">
+
+          <label class="label">
+            Area (A)
+          </label>
+
+          <div
+            class="geometry-field"
+            style="max-width: 420px;">
+
+            <input
+              type="number"
+              id="manualAreaInput"
+              class="standard-input"
+              step="any">
+
+            <select
+              id="manualAreaUnit"
+              class="standard-select">
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="area-result">
+
+          <div class="area-line">
+
+            <span class="area-label">
+              Calculated Area
+            </span>
+
+            <span
+              id="areaMain"
+              class="area-value">
+              —
+            </span>
+
+          </div>
+
+          <div
+            id="areaSecondary"
+            class="area-secondary">
+          </div>
+
+        </div>
+
       </div>
 
-    </section>
 
-  </main>
+      <div class="heat-result">
+
+        <div class="heat-result-label">
+          Heat Flux (q'')
+        </div>
+
+        <div class="heat-result-row">
+
+          <input
+            type="number"
+            id="heatFluxInput"
+            class="heat-result-input"
+            step="any">
+
+          <select
+            id="heatFluxUnit"
+            class="heat-result-select">
+          </select>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         PRESSURE
+         ===================================== -->
+
+    <div
+      class="panel"
+      id="pressurePanel">
+
+      <div class="panel-title">
+        Pressure
+      </div>
+
+      <div class="panel-description">
+        Pressure unit conversion
+      </div>
+
+      <div
+        class="converter-row"
+        id="pressureConverter">
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         VOLUME
+         ===================================== -->
+
+    <div
+      class="panel"
+      id="volumePanel">
+
+      <div class="panel-title">
+        Volume
+      </div>
+
+      <div class="panel-description">
+        Volume and capacity conversion
+      </div>
+
+      <div
+        class="converter-row"
+        id="volumeConverter">
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         TIME
+         ===================================== -->
+
+    <div
+      class="panel"
+      id="timePanel">
+
+      <div class="panel-title">
+        Time
+      </div>
+
+      <div class="panel-description">
+        Time duration conversion
+      </div>
+
+      <div
+        class="converter-row"
+        id="timeConverter">
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
 
 
 <script>
 
-  /* =========================================================
+  /* =====================================================
      UNIT DATABASE
-     ========================================================= */
-
-
-  const categories = {
-
-    length: {
-
-      name: "Length",
-
-      description:
-        "Length and distance conversion",
-
-      units: {
-
-        "μm": 1e-6,
-        "mm": 1e-3,
-        "cm": 1e-2,
-        "m": 1,
-        "km": 1000,
-        "in": 0.0254,
-        "ft": 0.3048
-
-      },
-
-      defaultLeft: "m",
-      defaultRight: "ft"
-    },
-
-
-    area: {
-
-      name: "Area",
-
-      description:
-        "Surface area conversion",
-
-      units: {
-
-        "mm²": 1e-6,
-        "cm²": 1e-4,
-        "m²": 1,
-        "km²": 1e6,
-        "in²": 0.00064516,
-        "ft²": 0.09290304
-
-      },
-
-      defaultLeft: "m²",
-      defaultRight: "ft²"
-    },
-
-
-    volume: {
-
-      name: "Volume",
-
-      description:
-        "Volume and capacity conversion",
-
-      units: {
-
-        "mm³": 1e-9,
-        "cm³": 1e-6,
-        "mL": 1e-6,
-        "L": 1e-3,
-        "m³": 1,
-        "in³": 0.000016387064,
-        "ft³": 0.028316846592,
-        "US gal": 0.003785411784
-
-      },
-
-      defaultLeft: "L",
-      defaultRight: "m³"
-    },
-
-
-    speed: {
-
-      name: "Speed",
-
-      description:
-        "Linear velocity conversion",
-
-      units: {
-
-        "mm/s": 0.001,
-        "cm/s": 0.01,
-        "m/s": 1,
-        "km/h": 1 / 3.6,
-        "ft/s": 0.3048,
-        "mph": 0.44704,
-        "knot": 0.5144444444
-
-      },
-
-      defaultLeft: "m/s",
-      defaultRight: "km/h"
-    },
-
-
-    temperature: {
-
-      name: "Temperature",
-
-      description:
-        "Temperature scale conversion",
-
-      special: true,
-
-      units: {
-        "°C": 1,
-        "K": 1,
-        "°F": 1
-      },
-
-      defaultLeft: "°C",
-      defaultRight: "K"
-    },
-
-
-    time: {
-
-      name: "Time",
-
-      description:
-        "Time duration conversion",
-
-      units: {
-
-        "ms": 0.001,
-        "s": 1,
-        "min": 60,
-        "h": 3600,
-        "day": 86400
-
-      },
-
-      defaultLeft: "s",
-      defaultRight: "min"
-    },
-
-
-    pressure: {
-
-      name: "Pressure",
-
-      description:
-        "Pressure unit conversion",
-
-      units: {
-
-        "Pa": 1,
-        "kPa": 1000,
-        "MPa": 1e6,
-        "bar": 100000,
-        "atm": 101325,
-        "psi": 6894.757293168,
-        "mmHg": 133.322387415,
-        "Torr": 133.322368421
-
-      },
-
-      defaultLeft: "kPa",
-      defaultRight: "atm"
-    },
-
-
-    flow: {
-
-      name: "Flow Rate",
-
-      description:
-        "Volumetric and mass flow rate conversion"
-
-    }
-
-  };
-
-
-  /* =========================================================
-     FLOW RATE DATABASE
-     ========================================================= */
-
+     ===================================================== */
 
   const volumetricFlowUnits = {
 
-    "mL/min": 1e-6 / 60,
-
     "L/min (LPM)": 1e-3 / 60,
-
-    "L/s": 1e-3,
-
-    "L/h": 1e-3 / 3600,
-
     "m³/s": 1,
-
-    "m³/min": 1 / 60,
-
+    "L/s": 1e-3,
     "m³/h": 1 / 3600,
-
+    "mL/min": 1e-6 / 60,
+    "m³/min": 1 / 60,
     "CFM": 0.028316846592 / 60,
-
-    "US GPM": 0.003785411784 / 60
+    "US GPM": 0.003785411784 / 60,
+    "L/h": 1e-3 / 3600
 
   };
 
 
   const massFlowUnits = {
 
-    "g/s": 0.001,
-
     "kg/s": 1,
-
-    "kg/min": 1 / 60,
-
     "kg/h": 1 / 3600,
-
+    "kg/min": 1 / 60,
+    "g/s": 0.001,
     "lb/s": 0.45359237,
-
     "lb/min": 0.45359237 / 60,
-
     "lb/h": 0.45359237 / 3600
 
   };
 
 
-  /* =========================================================
-     DENSITY DATABASE
-     Base unit = kg/m³
-     ========================================================= */
-
-
   const densityFactors = {
 
     kgm3: 1,
-
     gcm3: 1000,
-
     kgL: 1000,
-
     gL: 1,
-
     lbft3: 16.01846337396
 
   };
 
 
-  /* =========================================================
-     STATE
-     ========================================================= */
+  const pressureUnits = {
 
+    "kPa": 1000,
+    "Pa": 1,
+    "MPa": 1e6,
+    "bar": 100000,
+    "psi": 6894.757293168,
+    "atm": 101325,
+    "mmHg": 133.322387415,
+    "Torr": 133.322368421
 
-  let currentCategory = "length";
+  };
 
-  let flowMode = "volumetric";
 
-  let bridgeDirection = "volumeToMass";
+  const volumeUnits = {
 
-  let activeSide = "left";
+    "mL": 1e-6,
+    "L": 1e-3,
+    "cm³": 1e-6,
+    "m³": 1,
+    "mm³": 1e-9,
+    "in³": 0.000016387064,
+    "ft³": 0.028316846592,
+    "US gal": 0.003785411784
 
+  };
 
-  /* =========================================================
-     DOM
-     ========================================================= */
 
+  const timeUnits = {
 
-  const categoriesElement =
-    document.getElementById("categories");
+    "s": 1,
+    "min": 60,
+    "h": 3600,
+    "ms": 0.001,
+    "day": 86400
 
+  };
 
-  const converterTitle =
-    document.getElementById("converterTitle");
 
+  const heatRateUnits = {
 
-  const converterDescription =
-    document.getElementById("converterDescription");
+    "W": 1,
+    "kW": 1000,
+    "mW": 0.001,
+    "MW": 1e6
 
+  };
 
-  const leftInput =
-    document.getElementById("leftInput");
 
+  const heatFluxUnits = {
 
-  const rightInput =
-    document.getElementById("rightInput");
+    "W/m²": 1,
+    "kW/m²": 1000,
+    "W/cm²": 10000,
+    "MW/m²": 1e6,
+    "W/mm²": 1e6,
+    "BTU/(h·ft²)": 3.154590746
 
+  };
 
-  const leftUnit =
-    document.getElementById("leftUnit");
 
+  const lengthUnits = {
 
-  const rightUnit =
-    document.getElementById("rightUnit");
+    "mm": 1e-3,
+    "m": 1,
+    "cm": 1e-2,
+    "μm": 1e-6,
+    "in": 0.0254,
+    "ft": 0.3048
 
+  };
 
-  const swapBtn =
-    document.getElementById("swapBtn");
 
+  const areaUnits = {
 
-  const flowModes =
-    document.getElementById("flowModes");
+    "mm²": 1e-6,
+    "m²": 1,
+    "cm²": 1e-4,
+    "in²": 0.00064516,
+    "ft²": 0.09290304
 
+  };
 
-  const densityPanel =
-    document.getElementById("densityPanel");
 
+  /* =====================================================
+     UTILITIES
+     ===================================================== */
 
-  const densityInput =
-    document.getElementById("densityInput");
-
-
-  const densityUnit =
-    document.getElementById("densityUnit");
-
-
-  const conversionInfo =
-    document.getElementById("conversionInfo");
-
-
-  /* =========================================================
-     BUILD CATEGORY BUTTONS
-     ========================================================= */
-
-
-  Object.entries(categories).forEach(
-    ([key, category]) => {
-
-      const button =
-        document.createElement("button");
-
-
-      button.className =
-        "category-btn";
-
-
-      button.textContent =
-        category.name;
-
-
-      button.dataset.category =
-        key;
-
-
-      if (key === currentCategory) {
-
-        button.classList.add("active");
-
-      }
-
-
-      button.addEventListener(
-        "click",
-
-        () => {
-
-          selectCategory(key);
-
-        }
-      );
-
-
-      categoriesElement.appendChild(button);
-
-    }
-  );
-
-
-  /* =========================================================
-     SELECT CATEGORY
-     ========================================================= */
-
-
-  function selectCategory(key) {
-
-    currentCategory = key;
-
-    activeSide = "left";
-
-
-    document
-      .querySelectorAll(".category-btn")
-      .forEach(button => {
-
-        button.classList.toggle(
-          "active",
-          button.dataset.category === key
-        );
-
-      });
-
-
-    converterTitle.textContent =
-      categories[key].name;
-
-
-    converterDescription.textContent =
-      categories[key].description;
-
-
-    if (key === "flow") {
-
-      flowModes.style.display =
-        "flex";
-
-
-      setupFlowMode();
-
-    }
-
-    else {
-
-      flowModes.style.display =
-        "none";
-
-
-      densityPanel.style.display =
-        "none";
-
-
-      setupStandardCategory();
-
-    }
-
-  }
-
-
-  /* =========================================================
-     STANDARD CATEGORY SETUP
-     ========================================================= */
-
-
-  function setupStandardCategory() {
-
-    const category =
-      categories[currentCategory];
-
-
-    fillSelect(
-      leftUnit,
-      category.units
-    );
-
-
-    fillSelect(
-      rightUnit,
-      category.units
-    );
-
-
-    leftUnit.value =
-      category.defaultLeft;
-
-
-    rightUnit.value =
-      category.defaultRight;
-
-
-    leftInput.value =
-      1;
-
-
-    convert();
-
-
-    updateInfo();
-
-  }
-
-
-  /* =========================================================
-     FLOW MODE SETUP
-     ========================================================= */
-
-
-  function setupFlowMode() {
-
-    document
-      .querySelectorAll(".flow-mode-btn")
-      .forEach(button => {
-
-        button.classList.toggle(
-          "active",
-          button.dataset.flowMode === flowMode
-        );
-
-      });
-
-
-    activeSide = "left";
-
-
-    if (flowMode === "volumetric") {
-
-      densityPanel.style.display =
-        "none";
-
-
-      fillSelect(
-        leftUnit,
-        volumetricFlowUnits
-      );
-
-
-      fillSelect(
-        rightUnit,
-        volumetricFlowUnits
-      );
-
-
-      leftUnit.value =
-        "L/min (LPM)";
-
-
-      rightUnit.value =
-        "m³/s";
-
-
-      leftInput.value =
-        1;
-
-
-      bridgeDirection =
-        "volumeToMass";
-
-    }
-
-
-    else if (flowMode === "mass") {
-
-      densityPanel.style.display =
-        "none";
-
-
-      fillSelect(
-        leftUnit,
-        massFlowUnits
-      );
-
-
-      fillSelect(
-        rightUnit,
-        massFlowUnits
-      );
-
-
-      leftUnit.value =
-        "kg/s";
-
-
-      rightUnit.value =
-        "kg/h";
-
-
-      leftInput.value =
-        1;
-
-
-      bridgeDirection =
-        "volumeToMass";
-
-    }
-
-
-    else if (flowMode === "bridge") {
-
-      densityPanel.style.display =
-        "block";
-
-
-      bridgeDirection =
-        "volumeToMass";
-
-
-      fillSelect(
-        leftUnit,
-        volumetricFlowUnits
-      );
-
-
-      fillSelect(
-        rightUnit,
-        massFlowUnits
-      );
-
-
-      leftUnit.value =
-        "L/min (LPM)";
-
-
-      rightUnit.value =
-        "kg/s";
-
-
-      leftInput.value =
-        1;
-
-    }
-
-
-    convert();
-
-    updateInfo();
-
-  }
-
-
-  /* =========================================================
-     FILL SELECT
-     ========================================================= */
-
-
-  function fillSelect(
-    select,
-    units
-  ) {
+  function fillSelect(select, units) {
 
     select.innerHTML = "";
 
+    Object.keys(units).forEach(unit => {
 
-    Object.keys(units).forEach(
-      unitName => {
+      const option =
+        document.createElement("option");
 
-        const option =
-          document.createElement("option");
+      option.value = unit;
+      option.textContent = unit;
 
+      select.appendChild(option);
 
-        option.value =
-          unitName;
-
-
-        option.textContent =
-          unitName;
-
-
-        select.appendChild(option);
-
-      }
-    );
+    });
 
   }
-
-
-  /* =========================================================
-     TEMPERATURE
-     ========================================================= */
-
-
-  function temperatureToCelsius(
-    value,
-    unit
-  ) {
-
-    if (unit === "°C") {
-
-      return value;
-
-    }
-
-
-    if (unit === "K") {
-
-      return value - 273.15;
-
-    }
-
-
-    if (unit === "°F") {
-
-      return (
-        value - 32
-      ) * 5 / 9;
-
-    }
-
-  }
-
-
-  function celsiusToTemperature(
-    value,
-    unit
-  ) {
-
-    if (unit === "°C") {
-
-      return value;
-
-    }
-
-
-    if (unit === "K") {
-
-      return value + 273.15;
-
-    }
-
-
-    if (unit === "°F") {
-
-      return (
-        value * 9 / 5
-      ) + 32;
-
-    }
-
-  }
-
-
-  /* =========================================================
-     NUMBER FORMAT
-     ========================================================= */
 
 
   function formatNumber(value) {
 
     if (!Number.isFinite(value)) {
-
       return "";
-
     }
-
 
     if (value === 0) {
-
       return "0";
-
     }
 
-
-    const absolute =
+    const abs =
       Math.abs(value);
 
 
     if (
-      absolute >= 1e10 ||
-      absolute < 1e-7
+      abs >= 1e10 ||
+      abs < 1e-7
     ) {
 
-      return value
-        .toExponential(7)
-        .replace(
-          /\.?0+e/,
-          "e"
-        );
+      return value.toExponential(7);
 
     }
 
@@ -1366,164 +1298,305 @@
   }
 
 
-  /* =========================================================
-     STANDARD CONVERSION
-     ========================================================= */
+  /* =====================================================
+     CATEGORY
+     ===================================================== */
+
+  document
+    .querySelectorAll(".category-btn")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".category-btn")
+            .forEach(btn => {
+
+              btn.classList.toggle(
+                "active",
+                btn === button
+              );
+
+            });
 
 
-  function convertStandard() {
+          document
+            .querySelectorAll(".panel")
+            .forEach(panel => {
 
-    const category =
-      categories[currentCategory];
+              panel.classList.remove("active");
 
-
-    const sourceInput =
-      activeSide === "left"
-        ? leftInput
-        : rightInput;
+            });
 
 
-    const targetInput =
-      activeSide === "left"
-        ? rightInput
-        : leftInput;
+          document
+            .getElementById(
+              button.dataset.panel
+            )
+            .classList.add("active");
+
+        }
+      );
+
+    });
 
 
-    const sourceUnit =
-      activeSide === "left"
-        ? leftUnit.value
-        : rightUnit.value;
+  /* =====================================================
+     STANDARD CONVERTER
+     ===================================================== */
+
+  function createConverter(
+    containerId,
+    units,
+    defaultLeft,
+    defaultRight
+  ) {
+
+    const container =
+      document.getElementById(containerId);
 
 
-    const targetUnit =
-      activeSide === "left"
-        ? rightUnit.value
-        : leftUnit.value;
+    container.innerHTML = `
+
+      <div class="unit-box">
+
+        <input
+          type="number"
+          class="large-input left-input"
+          step="any">
+
+        <select
+          class="unit-select left-unit">
+        </select>
+
+      </div>
 
 
-    const value =
-      parseFloat(sourceInput.value);
+      <button class="swap-btn">
+        ⇄
+      </button>
 
 
-    if (Number.isNaN(value)) {
+      <div class="unit-box">
 
-      targetInput.value = "";
+        <input
+          type="number"
+          class="large-input right-input"
+          step="any">
 
-      return;
+        <select
+          class="unit-select right-unit">
+        </select>
 
-    }
+      </div>
 
-
-    let result;
-
-
-    if (category.special) {
-
-      const celsius =
-        temperatureToCelsius(
-          value,
-          sourceUnit
-        );
+    `;
 
 
-      result =
-        celsiusToTemperature(
-          celsius,
-          targetUnit
-        );
+    const leftInput =
+      container.querySelector(".left-input");
 
-    }
+    const rightInput =
+      container.querySelector(".right-input");
 
-    else {
+    const leftUnit =
+      container.querySelector(".left-unit");
 
-      const baseValue =
+    const rightUnit =
+      container.querySelector(".right-unit");
+
+    const swap =
+      container.querySelector(".swap-btn");
+
+
+    fillSelect(leftUnit, units);
+    fillSelect(rightUnit, units);
+
+
+    leftUnit.value =
+      defaultLeft;
+
+    rightUnit.value =
+      defaultRight;
+
+
+    let activeSide =
+      "left";
+
+
+    function convert() {
+
+      const sourceInput =
+        activeSide === "left"
+          ? leftInput
+          : rightInput;
+
+
+      const targetInput =
+        activeSide === "left"
+          ? rightInput
+          : leftInput;
+
+
+      const sourceUnit =
+        activeSide === "left"
+          ? leftUnit.value
+          : rightUnit.value;
+
+
+      const targetUnit =
+        activeSide === "left"
+          ? rightUnit.value
+          : leftUnit.value;
+
+
+      const value =
+        parseFloat(sourceInput.value);
+
+
+      if (!Number.isFinite(value)) {
+
+        targetInput.value = "";
+        return;
+
+      }
+
+
+      const base =
         value *
-        category.units[sourceUnit];
+        units[sourceUnit];
 
 
-      result =
-        baseValue /
-        category.units[targetUnit];
-
-    }
+      const result =
+        base /
+        units[targetUnit];
 
 
-    targetInput.value =
-      formatNumber(result);
-
-  }
-
-
-  /* =========================================================
-     FLOW SAME-TYPE CONVERSION
-     ========================================================= */
-
-
-  function convertFlowSameType() {
-
-    const units =
-      flowMode === "volumetric"
-        ? volumetricFlowUnits
-        : massFlowUnits;
-
-
-    const sourceInput =
-      activeSide === "left"
-        ? leftInput
-        : rightInput;
-
-
-    const targetInput =
-      activeSide === "left"
-        ? rightInput
-        : leftInput;
-
-
-    const sourceUnit =
-      activeSide === "left"
-        ? leftUnit.value
-        : rightUnit.value;
-
-
-    const targetUnit =
-      activeSide === "left"
-        ? rightUnit.value
-        : leftUnit.value;
-
-
-    const value =
-      parseFloat(sourceInput.value);
-
-
-    if (Number.isNaN(value)) {
-
-      targetInput.value = "";
-
-      return;
+      targetInput.value =
+        formatNumber(result);
 
     }
 
 
-    const baseValue =
-      value * units[sourceUnit];
+    leftInput.addEventListener(
+      "input",
+      () => {
+
+        activeSide = "left";
+        convert();
+
+      }
+    );
 
 
-    const result =
-      baseValue / units[targetUnit];
+    rightInput.addEventListener(
+      "input",
+      () => {
+
+        activeSide = "right";
+        convert();
+
+      }
+    );
 
 
-    targetInput.value =
-      formatNumber(result);
+    leftUnit.addEventListener(
+      "change",
+      convert
+    );
+
+
+    rightUnit.addEventListener(
+      "change",
+      convert
+    );
+
+
+    swap.addEventListener(
+      "click",
+      () => {
+
+        const oldLeftUnit =
+          leftUnit.value;
+
+        const oldRightUnit =
+          rightUnit.value;
+
+        const oldLeftValue =
+          leftInput.value;
+
+        const oldRightValue =
+          rightInput.value;
+
+
+        leftUnit.value =
+          oldRightUnit;
+
+        rightUnit.value =
+          oldLeftUnit;
+
+
+        leftInput.value =
+          oldRightValue;
+
+        rightInput.value =
+          oldLeftValue;
+
+
+        activeSide =
+          "left";
+
+
+        convert();
+
+      }
+    );
 
   }
 
 
-  /* =========================================================
-     DENSITY
-     ========================================================= */
+  /* =====================================================
+     FLOW RATE
+     ===================================================== */
+
+  const flowLeftInput =
+    document.getElementById("flowLeftInput");
+
+  const flowRightInput =
+    document.getElementById("flowRightInput");
+
+  const flowLeftUnit =
+    document.getElementById("flowLeftUnit");
+
+  const flowRightUnit =
+    document.getElementById("flowRightUnit");
+
+  const flowSwap =
+    document.getElementById("flowSwap");
+
+  const densityPanel =
+    document.getElementById("densityPanel");
+
+  const densityInput =
+    document.getElementById("densityInput");
+
+  const densityUnit =
+    document.getElementById("densityUnit");
 
 
-  function getDensityKgM3() {
+  let flowMode =
+    "volumetric";
+
+  let flowActiveSide =
+    "left";
+
+  let bridgeDirection =
+    "volumeToMass";
+
+
+  function getDensity() {
 
     const value =
       parseFloat(
@@ -1532,7 +1605,7 @@
 
 
     if (
-      Number.isNaN(value) ||
+      !Number.isFinite(value) ||
       value <= 0
     ) {
 
@@ -1551,43 +1624,184 @@
   }
 
 
-  /* =========================================================
-     FLOW BRIDGE CONVERSION
-     ========================================================= */
+  function setupFlow() {
+
+    flowActiveSide =
+      "left";
 
 
-  function convertFlowBridge() {
-
-    const density =
-      getDensityKgM3();
+    flowLeftInput.value = "";
+    flowRightInput.value = "";
 
 
-    if (!Number.isFinite(density)) {
-
-      if (activeSide === "left") {
-
-        rightInput.value = "";
-
-      }
-
-      else {
-
-        leftInput.value = "";
-
-      }
+    densityPanel.classList.toggle(
+      "active",
+      flowMode === "bridge"
+    );
 
 
+    if (
+      flowMode ===
+      "volumetric"
+    ) {
+
+      fillSelect(
+        flowLeftUnit,
+        volumetricFlowUnits
+      );
+
+      fillSelect(
+        flowRightUnit,
+        volumetricFlowUnits
+      );
+
+
+      flowLeftUnit.value =
+        "L/min (LPM)";
+
+      flowRightUnit.value =
+        "m³/s";
+
+    }
+
+
+    else if (
+      flowMode ===
+      "mass"
+    ) {
+
+      fillSelect(
+        flowLeftUnit,
+        massFlowUnits
+      );
+
+      fillSelect(
+        flowRightUnit,
+        massFlowUnits
+      );
+
+
+      flowLeftUnit.value =
+        "kg/s";
+
+      flowRightUnit.value =
+        "kg/h";
+
+    }
+
+
+    else {
+
+      bridgeDirection =
+        "volumeToMass";
+
+
+      fillSelect(
+        flowLeftUnit,
+        volumetricFlowUnits
+      );
+
+      fillSelect(
+        flowRightUnit,
+        massFlowUnits
+      );
+
+
+      flowLeftUnit.value =
+        "L/min (LPM)";
+
+      flowRightUnit.value =
+        "kg/s";
+
+    }
+
+  }
+
+
+  function convertFlowSameType() {
+
+    const units =
+      flowMode === "volumetric"
+        ? volumetricFlowUnits
+        : massFlowUnits;
+
+
+    const sourceInput =
+      flowActiveSide === "left"
+        ? flowLeftInput
+        : flowRightInput;
+
+
+    const targetInput =
+      flowActiveSide === "left"
+        ? flowRightInput
+        : flowLeftInput;
+
+
+    const sourceUnit =
+      flowActiveSide === "left"
+        ? flowLeftUnit.value
+        : flowRightUnit.value;
+
+
+    const targetUnit =
+      flowActiveSide === "left"
+        ? flowRightUnit.value
+        : flowLeftUnit.value;
+
+
+    const value =
+      parseFloat(sourceInput.value);
+
+
+    if (!Number.isFinite(value)) {
+
+      targetInput.value = "";
       return;
 
     }
 
 
-    /*
-      Direction 1
+    const base =
+      value *
+      units[sourceUnit];
 
-      LEFT  = Volume flow
-      RIGHT = Mass flow
-    */
+
+    targetInput.value =
+      formatNumber(
+        base /
+        units[targetUnit]
+      );
+
+  }
+
+
+  function convertFlowBridge() {
+
+    const density =
+      getDensity();
+
+
+    if (!Number.isFinite(density)) {
+
+      if (
+        flowActiveSide ===
+        "left"
+      ) {
+
+        flowRightInput.value = "";
+
+      }
+
+      else {
+
+        flowLeftInput.value = "";
+
+      }
+
+      return;
+
+    }
 
 
     if (
@@ -1595,44 +1809,44 @@
       "volumeToMass"
     ) {
 
-      if (activeSide === "left") {
+      if (
+        flowActiveSide ===
+        "left"
+      ) {
 
         const value =
           parseFloat(
-            leftInput.value
+            flowLeftInput.value
           );
 
 
-        if (Number.isNaN(value)) {
+        if (!Number.isFinite(value)) {
 
-          rightInput.value = "";
-
+          flowRightInput.value = "";
           return;
 
         }
 
 
-        const volumeM3s =
+        const volume =
           value *
           volumetricFlowUnits[
-            leftUnit.value
+            flowLeftUnit.value
           ];
 
 
-        const massKgs =
-          density *
-          volumeM3s;
+        const mass =
+          volume *
+          density;
 
 
-        const result =
-          massKgs /
-          massFlowUnits[
-            rightUnit.value
-          ];
-
-
-        rightInput.value =
-          formatNumber(result);
+        flowRightInput.value =
+          formatNumber(
+            mass /
+            massFlowUnits[
+              flowRightUnit.value
+            ]
+          );
 
       }
 
@@ -1641,94 +1855,83 @@
 
         const value =
           parseFloat(
-            rightInput.value
+            flowRightInput.value
           );
 
 
-        if (Number.isNaN(value)) {
+        if (!Number.isFinite(value)) {
 
-          leftInput.value = "";
-
+          flowLeftInput.value = "";
           return;
 
         }
 
 
-        const massKgs =
+        const mass =
           value *
           massFlowUnits[
-            rightUnit.value
+            flowRightUnit.value
           ];
 
 
-        const volumeM3s =
-          massKgs /
+        const volume =
+          mass /
           density;
 
 
-        const result =
-          volumeM3s /
-          volumetricFlowUnits[
-            leftUnit.value
-          ];
-
-
-        leftInput.value =
-          formatNumber(result);
+        flowLeftInput.value =
+          formatNumber(
+            volume /
+            volumetricFlowUnits[
+              flowLeftUnit.value
+            ]
+          );
 
       }
 
     }
 
 
-    /*
-      Direction 2
-
-      LEFT  = Mass flow
-      RIGHT = Volume flow
-    */
-
-
     else {
 
-      if (activeSide === "left") {
+      if (
+        flowActiveSide ===
+        "left"
+      ) {
 
         const value =
           parseFloat(
-            leftInput.value
+            flowLeftInput.value
           );
 
 
-        if (Number.isNaN(value)) {
+        if (!Number.isFinite(value)) {
 
-          rightInput.value = "";
-
+          flowRightInput.value = "";
           return;
 
         }
 
 
-        const massKgs =
+        const mass =
           value *
           massFlowUnits[
-            leftUnit.value
+            flowLeftUnit.value
           ];
 
 
-        const volumeM3s =
-          massKgs /
+        const volume =
+          mass /
           density;
 
 
-        const result =
-          volumeM3s /
-          volumetricFlowUnits[
-            rightUnit.value
-          ];
-
-
-        rightInput.value =
-          formatNumber(result);
+        flowRightInput.value =
+          formatNumber(
+            volume /
+            volumetricFlowUnits[
+              flowRightUnit.value
+            ]
+          );
 
       }
 
@@ -1737,40 +1940,37 @@
 
         const value =
           parseFloat(
-            rightInput.value
+            flowRightInput.value
           );
 
 
-        if (Number.isNaN(value)) {
+        if (!Number.isFinite(value)) {
 
-          leftInput.value = "";
-
+          flowLeftInput.value = "";
           return;
 
         }
 
 
-        const volumeM3s =
+        const volume =
           value *
           volumetricFlowUnits[
-            rightUnit.value
+            flowRightUnit.value
           ];
 
 
-        const massKgs =
-          density *
-          volumeM3s;
+        const mass =
+          volume *
+          density;
 
 
-        const result =
-          massKgs /
-          massFlowUnits[
-            leftUnit.value
-          ];
-
-
-        leftInput.value =
-          formatNumber(result);
+        flowLeftInput.value =
+          formatNumber(
+            mass /
+            massFlowUnits[
+              flowLeftUnit.value
+            ]
+          );
 
       }
 
@@ -1779,25 +1979,12 @@
   }
 
 
-  /* =========================================================
-     MASTER CONVERT
-     ========================================================= */
+  function convertFlow() {
 
-
-  function convert() {
-
-    if (currentCategory !== "flow") {
-
-      convertStandard();
-
-      updateInfo();
-
-      return;
-
-    }
-
-
-    if (flowMode === "bridge") {
+    if (
+      flowMode ===
+      "bridge"
+    ) {
 
       convertFlowBridge();
 
@@ -1809,308 +1996,11 @@
 
     }
 
-
-    updateInfo();
-
   }
-
-
-  /* =========================================================
-     SWAP
-     ========================================================= */
-
-
-  function swapUnits() {
-
-    /*
-      Standard categories
-      and same-type flow
-    */
-
-    if (
-      currentCategory !== "flow" ||
-      flowMode !== "bridge"
-    ) {
-
-      const oldLeftUnit =
-        leftUnit.value;
-
-
-      const oldRightUnit =
-        rightUnit.value;
-
-
-      const oldLeftValue =
-        leftInput.value;
-
-
-      const oldRightValue =
-        rightInput.value;
-
-
-      leftUnit.value =
-        oldRightUnit;
-
-
-      rightUnit.value =
-        oldLeftUnit;
-
-
-      leftInput.value =
-        oldRightValue;
-
-
-      rightInput.value =
-        oldLeftValue;
-
-
-      activeSide =
-        "left";
-
-
-      convert();
-
-      return;
-
-    }
-
-
-    /*
-      Density bridge
-    */
-
-
-    const oldLeftValue =
-      leftInput.value;
-
-
-    const oldRightValue =
-      rightInput.value;
-
-
-    const oldLeftUnit =
-      leftUnit.value;
-
-
-    const oldRightUnit =
-      rightUnit.value;
-
-
-    if (
-      bridgeDirection ===
-      "volumeToMass"
-    ) {
-
-      bridgeDirection =
-        "massToVolume";
-
-
-      fillSelect(
-        leftUnit,
-        massFlowUnits
-      );
-
-
-      fillSelect(
-        rightUnit,
-        volumetricFlowUnits
-      );
-
-
-      leftUnit.value =
-        oldRightUnit;
-
-
-      rightUnit.value =
-        oldLeftUnit;
-
-    }
-
-    else {
-
-      bridgeDirection =
-        "volumeToMass";
-
-
-      fillSelect(
-        leftUnit,
-        volumetricFlowUnits
-      );
-
-
-      fillSelect(
-        rightUnit,
-        massFlowUnits
-      );
-
-
-      leftUnit.value =
-        oldRightUnit;
-
-
-      rightUnit.value =
-        oldLeftUnit;
-
-    }
-
-
-    leftInput.value =
-      oldRightValue;
-
-
-    rightInput.value =
-      oldLeftValue;
-
-
-    activeSide =
-      "left";
-
-
-    convert();
-
-  }
-
-
-  /* =========================================================
-     INFORMATION
-     ========================================================= */
-
-
-  function updateInfo() {
-
-    if (currentCategory === "flow") {
-
-      if (flowMode === "volumetric") {
-
-        conversionInfo.innerHTML =
-          "Volumetric flow rate · Base unit: <strong>m³/s</strong>";
-
-      }
-
-
-      else if (flowMode === "mass") {
-
-        conversionInfo.innerHTML =
-          "Mass flow rate · Base unit: <strong>kg/s</strong>";
-
-      }
-
-
-      else {
-
-        const density =
-          getDensityKgM3();
-
-
-        if (Number.isFinite(density)) {
-
-          conversionInfo.innerHTML =
-            "Density-based conversion · " +
-            "<strong>ṁ = ρQ</strong>" +
-            " · Current density: " +
-            "<strong>" +
-            formatNumber(density) +
-            " kg/m³</strong>";
-
-        }
-
-        else {
-
-          conversionInfo.innerHTML =
-            "Enter a valid density greater than zero.";
-
-        }
-
-      }
-
-
-      return;
-
-    }
-
-
-    const baseUnits = {
-
-      length: "m",
-      area: "m²",
-      volume: "m³",
-      speed: "m/s",
-      temperature: "°C",
-      time: "s",
-      pressure: "Pa"
-
-    };
-
-
-    conversionInfo.innerHTML =
-      "Base unit: <strong>" +
-      baseUnits[currentCategory] +
-      "</strong>";
-
-  }
-
-
-  /* =========================================================
-     EVENTS
-     ========================================================= */
-
-
-  leftInput.addEventListener(
-    "input",
-    () => {
-
-      activeSide = "left";
-
-      convert();
-
-    }
-  );
-
-
-  rightInput.addEventListener(
-    "input",
-    () => {
-
-      activeSide = "right";
-
-      convert();
-
-    }
-  );
-
-
-  leftUnit.addEventListener(
-    "change",
-    convert
-  );
-
-
-  rightUnit.addEventListener(
-    "change",
-    convert
-  );
-
-
-  swapBtn.addEventListener(
-    "click",
-    swapUnits
-  );
-
-
-  densityInput.addEventListener(
-    "input",
-    convert
-  );
-
-
-  densityUnit.addEventListener(
-    "change",
-    convert
-  );
 
 
   document
-    .querySelectorAll(".flow-mode-btn")
+    .querySelectorAll("[data-flow]")
     .forEach(button => {
 
       button.addEventListener(
@@ -2118,10 +2008,22 @@
         () => {
 
           flowMode =
-            button.dataset.flowMode;
+            button.dataset.flow;
 
 
-          setupFlowMode();
+          document
+            .querySelectorAll("[data-flow]")
+            .forEach(btn => {
+
+              btn.classList.toggle(
+                "active",
+                btn === button
+              );
+
+            });
+
+
+          setupFlow();
 
         }
       );
@@ -2129,12 +2031,718 @@
     });
 
 
-  /* =========================================================
+  flowLeftInput.addEventListener(
+    "input",
+    () => {
+
+      flowActiveSide =
+        "left";
+
+      convertFlow();
+
+    }
+  );
+
+
+  flowRightInput.addEventListener(
+    "input",
+    () => {
+
+      flowActiveSide =
+        "right";
+
+      convertFlow();
+
+    }
+  );
+
+
+  flowLeftUnit.addEventListener(
+    "change",
+    convertFlow
+  );
+
+
+  flowRightUnit.addEventListener(
+    "change",
+    convertFlow
+  );
+
+
+  densityInput.addEventListener(
+    "input",
+    convertFlow
+  );
+
+
+  densityUnit.addEventListener(
+    "change",
+    convertFlow
+  );
+
+
+  flowSwap.addEventListener(
+    "click",
+    () => {
+
+      const oldLeftValue =
+        flowLeftInput.value;
+
+      const oldRightValue =
+        flowRightInput.value;
+
+      const oldLeftUnit =
+        flowLeftUnit.value;
+
+      const oldRightUnit =
+        flowRightUnit.value;
+
+
+      if (
+        flowMode !==
+        "bridge"
+      ) {
+
+        flowLeftUnit.value =
+          oldRightUnit;
+
+        flowRightUnit.value =
+          oldLeftUnit;
+
+      }
+
+
+      else {
+
+        if (
+          bridgeDirection ===
+          "volumeToMass"
+        ) {
+
+          bridgeDirection =
+            "massToVolume";
+
+
+          fillSelect(
+            flowLeftUnit,
+            massFlowUnits
+          );
+
+          fillSelect(
+            flowRightUnit,
+            volumetricFlowUnits
+          );
+
+        }
+
+        else {
+
+          bridgeDirection =
+            "volumeToMass";
+
+
+          fillSelect(
+            flowLeftUnit,
+            volumetricFlowUnits
+          );
+
+          fillSelect(
+            flowRightUnit,
+            massFlowUnits
+          );
+
+        }
+
+
+        flowLeftUnit.value =
+          oldRightUnit;
+
+        flowRightUnit.value =
+          oldLeftUnit;
+
+      }
+
+
+      flowLeftInput.value =
+        oldRightValue;
+
+      flowRightInput.value =
+        oldLeftValue;
+
+
+      flowActiveSide =
+        "left";
+
+
+      convertFlow();
+
+    }
+  );
+
+
+  /* =====================================================
+     HEAT FLUX
+     ===================================================== */
+
+  const heatRateInput =
+    document.getElementById("heatRateInput");
+
+  const heatRateUnit =
+    document.getElementById("heatRateUnit");
+
+  const heatFluxInput =
+    document.getElementById("heatFluxInput");
+
+  const heatFluxUnit =
+    document.getElementById("heatFluxUnit");
+
+
+  const lengthInput =
+    document.getElementById("lengthInput");
+
+  const widthInput =
+    document.getElementById("widthInput");
+
+  const diameterInput =
+    document.getElementById("diameterInput");
+
+  const manualAreaInput =
+    document.getElementById("manualAreaInput");
+
+
+  const lengthUnit =
+    document.getElementById("lengthUnit");
+
+  const widthUnit =
+    document.getElementById("widthUnit");
+
+  const diameterUnit =
+    document.getElementById("diameterUnit");
+
+  const manualAreaUnit =
+    document.getElementById("manualAreaUnit");
+
+
+  const areaMain =
+    document.getElementById("areaMain");
+
+  const areaSecondary =
+    document.getElementById("areaSecondary");
+
+  const geometryFormula =
+    document.getElementById("geometryFormula");
+
+
+  let geometryMode =
+    "rectangle";
+
+  let heatActiveSide =
+    "heatRate";
+
+
+  fillSelect(
+    heatRateUnit,
+    heatRateUnits
+  );
+
+  heatRateUnit.value =
+    "W";
+
+
+  fillSelect(
+    heatFluxUnit,
+    heatFluxUnits
+  );
+
+  heatFluxUnit.value =
+    "kW/m²";
+
+
+  [
+    lengthUnit,
+    widthUnit,
+    diameterUnit
+  ].forEach(select => {
+
+    fillSelect(
+      select,
+      lengthUnits
+    );
+
+    select.value =
+      "mm";
+
+  });
+
+
+  fillSelect(
+    manualAreaUnit,
+    areaUnits
+  );
+
+  manualAreaUnit.value =
+    "mm²";
+
+
+  function getArea() {
+
+    if (
+      geometryMode ===
+      "rectangle"
+    ) {
+
+      const L =
+        parseFloat(
+          lengthInput.value
+        );
+
+      const W =
+        parseFloat(
+          widthInput.value
+        );
+
+
+      if (
+        !Number.isFinite(L) ||
+        !Number.isFinite(W) ||
+        L <= 0 ||
+        W <= 0
+      ) {
+
+        return NaN;
+
+      }
+
+
+      return (
+        L *
+        lengthUnits[
+          lengthUnit.value
+        ] *
+        W *
+        lengthUnits[
+          widthUnit.value
+        ]
+      );
+
+    }
+
+
+    if (
+      geometryMode ===
+      "circle"
+    ) {
+
+      const D =
+        parseFloat(
+          diameterInput.value
+        );
+
+
+      if (
+        !Number.isFinite(D) ||
+        D <= 0
+      ) {
+
+        return NaN;
+
+      }
+
+
+      const diameter =
+        D *
+        lengthUnits[
+          diameterUnit.value
+        ];
+
+
+      return (
+        Math.PI *
+        diameter ** 2 /
+        4
+      );
+
+    }
+
+
+    const A =
+      parseFloat(
+        manualAreaInput.value
+      );
+
+
+    if (
+      !Number.isFinite(A) ||
+      A <= 0
+    ) {
+
+      return NaN;
+
+    }
+
+
+    return (
+      A *
+      areaUnits[
+        manualAreaUnit.value
+      ]
+    );
+
+  }
+
+
+  function updateArea() {
+
+    const area =
+      getArea();
+
+
+    if (
+      !Number.isFinite(area) ||
+      area <= 0
+    ) {
+
+      areaMain.textContent =
+        "—";
+
+      areaSecondary.textContent =
+        "";
+
+      return;
+
+    }
+
+
+    areaMain.textContent =
+      `${formatNumber(area)} m²`;
+
+
+    areaSecondary.textContent =
+      `${formatNumber(area * 1e6)} mm²`;
+
+  }
+
+
+  function calculateHeatFlux() {
+
+    const area =
+      getArea();
+
+
+    updateArea();
+
+
+    if (
+      !Number.isFinite(area) ||
+      area <= 0
+    ) {
+
+      if (
+        heatActiveSide ===
+        "heatRate"
+      ) {
+
+        heatFluxInput.value = "";
+
+      }
+
+      else {
+
+        heatRateInput.value = "";
+
+      }
+
+      return;
+
+    }
+
+
+    if (
+      heatActiveSide ===
+      "heatRate"
+    ) {
+
+      const q =
+        parseFloat(
+          heatRateInput.value
+        );
+
+
+      if (!Number.isFinite(q)) {
+
+        heatFluxInput.value = "";
+        return;
+
+      }
+
+
+      const heatRateW =
+        q *
+        heatRateUnits[
+          heatRateUnit.value
+        ];
+
+
+      const flux =
+        heatRateW /
+        area;
+
+
+      heatFluxInput.value =
+        formatNumber(
+          flux /
+          heatFluxUnits[
+            heatFluxUnit.value
+          ]
+        );
+
+    }
+
+
+    else {
+
+      const flux =
+        parseFloat(
+          heatFluxInput.value
+        );
+
+
+      if (!Number.isFinite(flux)) {
+
+        heatRateInput.value = "";
+        return;
+
+      }
+
+
+      const fluxWM2 =
+        flux *
+        heatFluxUnits[
+          heatFluxUnit.value
+        ];
+
+
+      const heatRateW =
+        fluxWM2 *
+        area;
+
+
+      heatRateInput.value =
+        formatNumber(
+          heatRateW /
+          heatRateUnits[
+            heatRateUnit.value
+          ]
+        );
+
+    }
+
+  }
+
+
+  document
+    .querySelectorAll("[data-geometry]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          geometryMode =
+            button.dataset.geometry;
+
+
+          document
+            .querySelectorAll("[data-geometry]")
+            .forEach(btn => {
+
+              btn.classList.toggle(
+                "active",
+                btn === button
+              );
+
+            });
+
+
+          document
+            .querySelectorAll(".geometry-content")
+            .forEach(content => {
+
+              content.classList.remove(
+                "active"
+              );
+
+            });
+
+
+          if (
+            geometryMode ===
+            "rectangle"
+          ) {
+
+            document
+              .getElementById(
+                "rectangleGeometry"
+              )
+              .classList.add(
+                "active"
+              );
+
+
+            geometryFormula.textContent =
+              "A = L × W";
+
+          }
+
+
+          else if (
+            geometryMode ===
+            "circle"
+          ) {
+
+            document
+              .getElementById(
+                "circleGeometry"
+              )
+              .classList.add(
+                "active"
+              );
+
+
+            geometryFormula.textContent =
+              "A = πD² / 4";
+
+          }
+
+
+          else {
+
+            document
+              .getElementById(
+                "manualGeometry"
+              )
+              .classList.add(
+                "active"
+              );
+
+
+            geometryFormula.textContent =
+              "A = User Input";
+
+          }
+
+
+          calculateHeatFlux();
+
+        }
+      );
+
+    });
+
+
+  heatRateInput.addEventListener(
+    "input",
+    () => {
+
+      heatActiveSide =
+        "heatRate";
+
+      calculateHeatFlux();
+
+    }
+  );
+
+
+  heatFluxInput.addEventListener(
+    "input",
+    () => {
+
+      heatActiveSide =
+        "heatFlux";
+
+      calculateHeatFlux();
+
+    }
+  );
+
+
+  heatRateUnit.addEventListener(
+    "change",
+    calculateHeatFlux
+  );
+
+
+  heatFluxUnit.addEventListener(
+    "change",
+    calculateHeatFlux
+  );
+
+
+  [
+    lengthInput,
+    widthInput,
+    diameterInput,
+    manualAreaInput
+  ].forEach(input => {
+
+    input.addEventListener(
+      "input",
+      calculateHeatFlux
+    );
+
+  });
+
+
+  [
+    lengthUnit,
+    widthUnit,
+    diameterUnit,
+    manualAreaUnit
+  ].forEach(select => {
+
+    select.addEventListener(
+      "change",
+      calculateHeatFlux
+    );
+
+  });
+
+
+  /* =====================================================
+     STANDARD CONVERTERS
+     ===================================================== */
+
+  createConverter(
+    "pressureConverter",
+    pressureUnits,
+    "kPa",
+    "Pa"
+  );
+
+
+  createConverter(
+    "volumeConverter",
+    volumeUnits,
+    "L",
+    "m³"
+  );
+
+
+  createConverter(
+    "timeConverter",
+    timeUnits,
+    "s",
+    "min"
+  );
+
+
+  /* =====================================================
      INITIALIZE
-     ========================================================= */
+     ===================================================== */
 
+  setupFlow();
 
-  selectCategory("length");
+  updateArea();
 
 </script>
 
